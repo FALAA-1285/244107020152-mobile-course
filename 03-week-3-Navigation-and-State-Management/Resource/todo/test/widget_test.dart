@@ -6,10 +6,9 @@ import 'package:todo/main.dart';
 void main() {
   testWidgets('menambah tugas baru', (tester) async {
     await tester.pumpWidget(const ProviderScope(child: MyApp()));
-    
-    // Pemuatan awal akan memunculkan indikator loading (simulasi async)
+  
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    await tester.pumpAndSettle(const Duration(seconds: 1)); // Menunggu loading selesai
+    await tester.pumpAndSettle(const Duration(seconds: 1)); 
     
     expect(find.text('Belum ada tugas'), findsOneWidget);
 
