@@ -81,7 +81,7 @@ AI juga menyediakan tabel skema untuk mekanisme *Offline-First* yang mencakup ko
 Meskipun AI merekomendasikan Drift untuk kemudahan *Stream*, saya tetap memutuskan menggunakan **SharedPreferences + SQLite (sqflite)**. SharedPreferences dirasa yang paling pas untuk preferensi tema. Sedangkan untuk CRUD, sqflite murni merupakan standar fundamental industri untuk berinteraksi dengan database relasional (SQL) di mobile. Untuk aplikasi dengan *scope* belajar dan skala yang belum masif, sqflite jauh lebih efisien di-setup tanpa butuh *overhead library tambahan* (seperti `build_runner` / code generator dari Drift), dan sudah cukup andal dipadukan dengan arsitektur *provider/repository* yang terpisah untuk me-refresh data UI.
 
 ---
-### 💡 Jawaban Refleksi
+### Refleksi
 
 **1. Mengapa daftar catatan tidak boleh disimpan di SharedPreferences? Apa yang rusak jika aturan ini dilanggar?**
 `SharedPreferences` didesain untuk menyimpan nilai primitif tunggal (*String, Boolean, Integer*). Untuk menyimpan *list* catatan, kita harus mengonversi seluruh koleksi tersebut menjadi satu buah String panjang berbentuk JSON. Jika aturan ini dilanggar, maka setiap kali membaca atau mengubah satu catatan kecil saja, aplikasi harus me-load keseluruhan teks JSON ke RAM, mengubahnya, lalu menimpanya lagi. Ini menyebabkan *Performance Bottleneck* (UI patah-patah), *memory leak*, dan aplikasi bisa *crash* (`OutOfMemoryError`) ketika list membesar. Selain itu, Anda kehilangan fitur filter data secara spesifik (`WHERE`).
